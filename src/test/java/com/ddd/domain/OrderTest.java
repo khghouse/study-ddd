@@ -7,6 +7,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.Arrays;
+import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -46,5 +47,12 @@ public class OrderTest {
 
             assertThrows(IllegalStateException.class, () -> order.changeShippingInfo(newShippingInfo));
         }
+    }
+
+    @Test
+    void uuidTest() {
+        System.out.println(UUID.randomUUID());
+        System.out.println(UUID.randomUUID());
+        System.out.println(UUID.randomUUID());
     }
 }

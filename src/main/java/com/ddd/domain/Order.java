@@ -9,6 +9,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 public class Order {
+    private String orderNumber;
     private List<OrderLine> orderLines;
     private Money totalAmounts;
     private OrderState state;
