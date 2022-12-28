@@ -20,19 +20,21 @@ public class OrderTest {
         @Test
         void success() {
             // given
+            Address address = new Address("서울시", "의사당대로", "00123");
             ShippingInfo shippingInfo = new ShippingInfo();
-            shippingInfo.setShippingZipcode("00123");
-            OrderLine orderLine = new OrderLine(new Product(), 10000, 1);
+            shippingInfo.setAddress(address);
+            OrderLine orderLine = new OrderLine(new Product(), new Money(10000), 1);
             Order order = new Order(Arrays.asList(orderLine), shippingInfo);
             order.setState(OrderState.PAYMENT_WAITING);
 
             // when
+            Address newAddress = new Address("서울시", "의사당대로", "01234");
             ShippingInfo newShippingInfo = new ShippingInfo();
-            newShippingInfo.setShippingZipcode("01234");
+            newShippingInfo.setAddress(newAddress);
             order.changeShippingInfo(newShippingInfo);
 
             // then
-            assertThat(order.getShippingInfo().getShippingZipcode()).isEqualTo("01234");
+            assertThat(order.getShippingInfo().getAddress().getZipcode()).isEqualTo("01234");
         }
 
         @Test
@@ -42,8 +44,9 @@ public class OrderTest {
             order.setState(OrderState.DELIVERING);
 
             // when
+            Address newAddress = new Address("서울시", "의사당대로", "01234");
             ShippingInfo newShippingInfo = new ShippingInfo();
-            newShippingInfo.setShippingZipcode("01234");
+            newShippingInfo.setAddress(newAddress);
 
             assertThrows(IllegalStateException.class, () -> order.changeShippingInfo(newShippingInfo));
         }

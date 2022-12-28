@@ -35,7 +35,7 @@ public class Order {
 
     private void calculateTotalAmounts() {
         int sum = orderLines.stream()
-                .mapToInt(OrderLine::getAmounts)
+                .mapToInt(x -> x.getAmounts().getValue())
                 .sum();
         this.totalAmounts = new Money(sum);
     }
