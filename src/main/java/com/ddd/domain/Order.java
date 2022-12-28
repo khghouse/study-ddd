@@ -14,15 +14,22 @@ public class Order {
     private OrderState state;
     private ShippingInfo shippingInfo;
 
-    public Order(List<OrderLine> orderLines) {
+    public Order(List<OrderLine> orderLines, ShippingInfo shippingInfo) {
         setOrderLines(orderLines);
+        setShippingInfo(shippingInfo);
     }
 
     private void setOrderLines(List<OrderLine> orderLines) {
         verifyAtLeastOneOrMoreOrderLines(orderLines);
         this.orderLines = orderLines;
         calculateTotalAmounts();
+    }
 
+    private void setShippingInfo(ShippingInfo shippingInfo) {
+        if (shippingInfo == null) { // 주문 생성 시, 배송지 정보 필수
+            throw new IllegalArgumentException("no ShippingInfo");
+        }
+        this.shippingInfo = shippingInfo;
     }
 
     private void calculateTotalAmounts() {
@@ -41,12 +48,11 @@ public class Order {
 
     // 배송지 정보 변경하기
     public void changeShippingInfo(ShippingInfo newShippingInfo) {
-        if (!isShippingChangeable()) {
-            throw new IllegalStateException("can't change shipping in " + state);
-        }
+        verifyNotYetShipped();
         this.shippingInfo = newShippingInfo;
     }
 
+    // 결제 대기, 상품준비중 상태일때만 배송지 변경 가능
     private boolean isShippingChangeable() {
         return state == OrderState.PAYMENT_WAITING || state == OrderState.PREPARING;
     }
@@ -58,7 +64,15 @@ public class Order {
 
     // 주문 취소하기
     public void cancle() {
+        verifyNotYetShipped();
+        this.state = OrderState.CANCELED;
+    }
 
+    // 상품 출고 이전 주문인지 체크
+    private void verifyNotYetShipped() {
+        if (state != OrderState.PAYMENT_WAITING && state != OrderState.PREPARING) {
+            throw new IllegalStateException("aleady shipped");
+        }
     }
 
     // 주문 결제하기

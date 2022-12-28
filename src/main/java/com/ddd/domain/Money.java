@@ -6,9 +6,9 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class Money {
-    private int amounts;
+    private int value;
 
-    public Money(int amounts) {
-        this.amounts = amounts;
+    public Money(int value) {
+        this.value = value;
     }
 }
