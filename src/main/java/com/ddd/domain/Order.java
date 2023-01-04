@@ -1,7 +1,6 @@
 package com.ddd.domain;
 
 import com.ddd.enums.OrderState;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -66,7 +65,7 @@ public class Order {
     }
 
     // 주문 취소하기
-    public void cancle() {
+    public void cancel() {
         verifyNotYetShipped();
         this.state = OrderState.CANCELED;
     }
