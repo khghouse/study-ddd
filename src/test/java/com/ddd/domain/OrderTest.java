@@ -24,8 +24,7 @@ public class OrderTest {
             ShippingInfo shippingInfo = new ShippingInfo();
             shippingInfo.setAddress(address);
             OrderLine orderLine = new OrderLine(new Product(), new Money(10000), 1);
-            Order order = new Order(Arrays.asList(orderLine), shippingInfo);
-            order.setState(OrderState.PAYMENT_WAITING);
+            Order order = new Order(Arrays.asList(orderLine), shippingInfo, OrderState.PAYMENT_WAITING);
 
             // when
             Address newAddress = new Address("서울시", "의사당대로", "01234");
@@ -41,7 +40,6 @@ public class OrderTest {
         void fail() {
             // given
             Order order = new Order();
-            order.setState(OrderState.DELIVERING);
 
             // when
             Address newAddress = new Address("서울시", "의사당대로", "01234");

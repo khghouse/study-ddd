@@ -2,22 +2,24 @@ package com.ddd.domain;
 
 import com.ddd.enums.OrderState;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
 
-@Data
+@Getter
 @NoArgsConstructor
 public class Order {
-    private String orderNumber;
+    private OrderNo id;
     private List<OrderLine> orderLines;
     private Money totalAmounts;
     private OrderState state;
     private ShippingInfo shippingInfo;
 
-    public Order(List<OrderLine> orderLines, ShippingInfo shippingInfo) {
+    public Order(List<OrderLine> orderLines, ShippingInfo shippingInfo, OrderState state) {
         setOrderLines(orderLines);
         setShippingInfo(shippingInfo);
+        this.state = state;
     }
 
     private void setOrderLines(List<OrderLine> orderLines) {
