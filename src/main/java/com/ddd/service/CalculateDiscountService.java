@@ -1,25 +1,23 @@
 package com.ddd.service;
 
-import com.ddd.component.DroolsRuleEngine;
+import com.ddd.component.DroolsRuleDiscounter;
+import com.ddd.domain.Customer;
 import com.ddd.domain.Money;
 import com.ddd.domain.OrderLine;
+import com.ddd.interfaces.RuleDiscounter;
 
 import java.util.List;
 
 public class CalculateDiscountService {
 
-    // 특정 모듈을 의존하고 있는 DroolsRuleEngine이 완벽하게 동작해야 CalculateDiscountService 테스트가 가능하다.
-    // 다른 할인 방식을 적용하기 위해 코드 수정이 필요하다.
-    private DroolsRuleEngine ruleEngine;
+    private RuleDiscounter ruleDiscounter = new DroolsRuleDiscounter();
 
-    public CalculateDiscountService() {
-        ruleEngine = new DroolsRuleEngine();
+    public CalculateDiscountService(RuleDiscounter ruleDiscounter) {
+        this.ruleDiscounter = ruleDiscounter;
     }
 
     public Money calculateDiscount(List<OrderLine> orderLines, String customerId) {
-        /**
-         * 할인 금액 계산
-         */
-        return null;
+        Customer customer = new Customer(); // 구매자 조회
+        return ruleDiscounter.applyRules(customer, orderLines);
     }
 }
