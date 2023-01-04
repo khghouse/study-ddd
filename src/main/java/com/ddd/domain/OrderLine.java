@@ -12,12 +12,12 @@ public class OrderLine {
 
     public OrderLine(Product product, Money price, int quantity) {
         this.product = product;
-        this.price = price;
+        this.price = new Money(price.getValue());
         this.quantity = quantity;
         this.amounts = calculateAmounts();
     }
 
     private Money calculateAmounts() {
-        return new Money(this.price.getValue() * this.quantity);
+        return price.multiply(quantity);
     }
 }
